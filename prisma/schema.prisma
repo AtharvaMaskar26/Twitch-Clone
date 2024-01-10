@@ -15,6 +15,28 @@ model User {
   externalUserId String @unique // Id that clerk uses
   bio String? @db.Text // Not clerk's it is our thing
 
+  following Follow[] @relation("Following")
+  followedBy Follow[] @relation("FollowedBy")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// Adding the follow feture
+model Follow {
+  id String @id @default(uuid()) 
+  followerId String
+  followingId String
+
+  // This creates a relation between the user and the follower. If the user deletes the account this relation gets deleted as well
+  follower User @relation(name: "Following", fields: [followerId], references: [id], onDelete: Cascade)
+
+  following User @relation(name: "FollowedBy", fields: [followingId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
 }

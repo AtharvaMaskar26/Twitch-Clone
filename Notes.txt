@@ -31,3 +31,7 @@ As you know we have set collapse as false by default
 So whenever we load our screen in mobile mode there is a small duration where there is mismatch in client side and server side rendering. 
 This causes hydration error
 If we set the collapse to true we will have error in desktop and not on mobile screen. To solve this you can add a small timer for a few seconds so the client and server hydrate
+
+#[username]
+- They square bracket tells that it is a dynamic url 
+- You can access the params as a prop

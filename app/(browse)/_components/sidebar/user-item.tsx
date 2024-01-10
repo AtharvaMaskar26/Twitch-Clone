@@ -19,27 +19,27 @@ interface UserItemProps {
 }
 
 function UserItem({
-    username, 
-    imageUrl, 
+    username,
+    imageUrl,
     isLive
 }: UserItemProps) {
     const pathname = usePathname();
 
-    const {collapsed} = useSidebar((state) => state);
+    const { collapsed } = useSidebar((state) => state);
 
     const href = `/${username}`
     const isActive = pathname === href;
 
-  return (
-    <div>
-        <Button
-            asChild
-            variant='ghost'
-            className={
-                cn('w-full h-12', 
-                collapsed ? "justify-center" : "justify-start", 
-                isActive && "bg-accent",
-                )}
+    return (
+        <div>
+            <Button
+                asChild
+                variant='ghost'
+                className={
+                    cn('w-full h-12',
+                        collapsed ? "justify-center" : "justify-start",
+                        isActive && "bg-accent",
+                    )}
             >
                 <Link href={href}>
                     <div className={cn(
@@ -49,8 +49,8 @@ function UserItem({
                         <UserAvatar
                             imageUrl={imageUrl}
                             username={username}
-                            isLive={isLive }
-                            // showBadge
+                            isLive={isLive}
+                        // showBadge
                         />
                         {
                             !collapsed && (
@@ -68,9 +68,28 @@ function UserItem({
                         }
                     </div>
                 </Link>
-        </Button>
-    </div>
-  )
+            </Button>
+        </div>
+    )
 }
+
+export const UserItemSkeleton = () => {
+    return (
+        <li
+            className='flex items-center gap-x-4 px-3 py-2'
+        >
+            <Skeleton
+                className='min-h-[32px] min-w-[32px] rounded-full'
+            />
+            <div className="flex-1">
+                <Skeleton
+                    className='h-6'
+                />
+            </div>
+        </li>
+    )
+}
+
+
 
 export default UserItem

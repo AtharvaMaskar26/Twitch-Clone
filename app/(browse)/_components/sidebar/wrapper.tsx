@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils"
 
 import { ToggleSkeleton } from "./toggle"
 import { RecommendedSkeleton } from "./recommended"
+import { FollowingSkeleton } from "./following"
 
 import { useSidebar } from "@/store/use-sidebar"
 import { useEffect, useState } from "react"
@@ -25,12 +26,14 @@ export const Wrapper = ({
 
     // Here we totally skip server side rendering
     // This one takes care of server side rendering and is completely different from the skeleton in Layout. This is only here to solve the hydration error we got. 
+    // Like we are adding skeletons for client side rendering. we also have to add skeletons for server side Hydration errors
     if (!isClient) {
         return (
             <aside
                 className="fixed left-0 flex flex-col w-[70px] lg:w-60 h-full bg-background border-r border-[#2D2E35] z-50"
             >
                 <ToggleSkeleton />
+                <FollowingSkeleton />
                 <RecommendedSkeleton />
             </aside>
         )

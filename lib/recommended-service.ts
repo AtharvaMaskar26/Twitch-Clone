@@ -31,6 +31,16 @@ export const getRecommended = async() => {
                                 }
                             }
                         }
+                    }, 
+                    {
+                        // No other channel is blocking our current user
+                        NOT: {
+                            blocking: {
+                                some: {
+                                    blockedId: userId
+                                }
+                            }
+                        }
                     }
                 ]
 

@@ -8,6 +8,14 @@ export const getFollowedUsers = async () => {
         const followedUser = db.follow.findMany({
             where: {
                 followerId: self.id,
+                // To highlight that the channel we are following is not blocking the user
+                following: {
+                    blocking: {
+                        none: {
+                            blockedId: self.id
+                        }
+                    }
+                }
             },
             include: {
                 following: true

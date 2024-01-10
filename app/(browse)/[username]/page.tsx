@@ -5,6 +5,7 @@ import React from 'react'
 
 // Importing Components
 import { Actions } from './_components/actions';
+import { isBlockedByUser } from '@/lib/block-service';
 
 interface UserPageProps {
     params: {
@@ -24,16 +25,18 @@ async function UserPage({
     }
 
     const isFollowing = await isFollowingUser(user.id);
-
+    const isBlocked = await isBlockedByUser(user.id)
 
   return (
     <div className='flex flex-col gap-y-4'>
         <p>Username: {user.username}</p>
         <p>User Id: {user.id}</p>
         <p>Is Following: {`${isFollowing}`}</p>
+        <p>Is Blocked: {`${isBlocked}`}</p>
         <Actions
             userId={user.id}
             isFollowing={isFollowing}
+            isBlocked={isBlocked}
         />
     </div>
   )

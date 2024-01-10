@@ -6,16 +6,19 @@ import { onFollow, onUnfollow } from "@/actions/follow"
 import { useTransition } from "react"
 
 import { toast } from "sonner"
+import { onBlock, onUnblock } from "@/actions/block"
 
 interface ActionsProps {
     isFollowing: boolean;
-    userId: string
+    userId: string;
+    isBlocked: boolean
 }
 
 export const Actions = ({
-    isFollowing, 
-    userId
-} : ActionsProps) => {
+    isFollowing,
+    userId, 
+    isBlocked
+}: ActionsProps) => {
     const [isPending, startTransition] = useTransition();
 
     const handleFollow = () => {
@@ -42,17 +45,51 @@ export const Actions = ({
         }
     }
 
+    const onClickBlock = () => {
+        if (isBlocked) {
+            handleUnblock();
+        } else {
+            handleBlock();
+        }
+    }
+
+    const handleBlock = () => {
+        startTransition(() => {
+            onBlock(userId)
+                .then((data) => toast.success(`Blocked ${data.blocked.username}`))
+                .catch(() => toast.error("Something Went Wrong"))
+        })
+    }
+
+    const handleUnblock = () => {
+        startTransition(() => {
+            onUnblock(userId)
+                .then((data) => toast.success(`Unblocked ${data.blocked.username}`))
+                .catch(() => toast.error("Something Went Wrong"))
+        })
+    }
+
 
     return (
-        <Button
-            variant='primary'
-            // This disables the button for the duration where the funciton is being executed
-            disabled={isPending}
-            onClick={onClick}
-        >
-            {
-                isFollowing ? "Unfollow" : "Follow"
-            }
-        </Button>
+        <>
+            <Button
+                variant='primary'
+                // This disables the button for the duration where the funciton is being executed
+                disabled={isPending}
+                onClick={onClick}
+            >
+                {
+                    isFollowing ? "Unfollow" : "Follow"
+                }
+            </Button>
+            <Button
+                onClick={onClickBlock}
+                disabled={isPending}
+            >
+                {
+                    isBlocked ? "Unblock" : "Block"
+                }
+            </Button>
+        </>
     )
 }

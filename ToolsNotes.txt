@@ -1,0 +1,14 @@
+Shadcn
+
+Clerk:
+- User authentication 
+- Login/Logout  
+- Adding Usernames 
+- Update Usernames
+- Webhooks 
+
+Platnetscale:
+
+Prisma:
+- For 
+

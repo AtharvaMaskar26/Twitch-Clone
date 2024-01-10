@@ -1,0 +1,27 @@
+** Notes after 41.16
+
+We cannot directly add functions to a component, we need to use server components for this. 
+"use client", we convert the server component into the client component
+next pages are by default server components 
+
+We can use Clerk for authentication and only allow authenticated users to login
+
+Why did we create [[...signup]]?
+
+You can find a lot of open source logos from logodust
+
+We use _folderName, to tell nextJs even if it has page.tsx file in it do not render it as a route
+
+We have to use light and dark mode in our website, so the website name becomes white and sub title becomes brighter. For this we'll also need to re-design clerk components. for this we install:
+npm i @clerk/themes
+
+
+Now we need our actual application to be using dark mode. 
+npm install next-themes
+
+# Concept of hot reloading 
+When we make some changes, the changes are reflected on your browser instantly. This is called hot reloading. In our db.ts file we don't want to create a new Prisma client with every reload. So we store the prisma in a global variable and only do in production. 
+
+# Exposing Local host to the internet
+We have to find a way to connect our localhost to the internet. While development we are going to use webhooks. In production we wont require tunelling because we will be having the url generated from vercel. 
+But for local development we will be needing a url using NGROK. 

@@ -34,8 +34,8 @@ const Container = ({
 
   return (
     <div className={cn(
-        "flex-1", 
-        collapsed ? 'ml-[70px]' : 'ml-[70px] lg:ml-[60px]'
+        "flex-1",
+        collapsed ? 'ml-[70px]' : 'ml-[70px] lg:ml-[250px]'
     )}>
         {children}
     </div>

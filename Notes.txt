@@ -35,3 +35,5 @@ If we set the collapse to true we will have error in desktop and not on mobile s
 #[username]
 - They square bracket tells that it is a dynamic url 
 - You can access the params as a prop
+
+DATABASE_URL='mysql://54dve1r8abk9as7rhn5s:pscale_pw_8SvJu3MONFG2EMgBr5D5XWR1UeqG55t3sA7EtNhDPhF@aws.connect.psdb.cloud/twitch-clone?sslaccept=strict'

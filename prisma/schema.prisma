@@ -15,7 +15,7 @@ model User {
   imageUrl String @db.Text // Populated by Clerk
   externalUserId String @unique // Id that clerk uses
   bio String? @db.Text // Not clerk's it is our thing
-
+  
   following Follow[] @relation("Following")
   followedBy Follow[] @relation("FollowedBy")
 

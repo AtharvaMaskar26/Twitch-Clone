@@ -13,10 +13,12 @@ import { Video } from './video';
 
 import React from 'react'
 import { Chat } from './chat';
+import { InfoCard } from './info-card';
 
 import { HeaderSkeleton } from './header';
 import { VideoSkeleton } from './video';
 import { ChatSkeleton } from './chat';
+
 
 interface StreamPlayerProps {
     user: User & {
@@ -81,6 +83,12 @@ const StreamPlayer = ({
               imageUrl={user.imageUrl}
               isFollowing={isFollowing}
               name={stream.name}
+           />
+           <InfoCard
+              hostIdentity={user.id}
+              viewerIdentity={identity}
+              name={stream.name}
+              thumbnailUrl={stream.thumbnailUrl}
            />
         </div>
         <div className={

@@ -1,45 +1,39 @@
-import { isFollowingUser } from '@/lib/follow-service';
-import { getUserByUsername } from '@/lib/user-service';
-import { notFound } from 'next/navigation';
-import React from 'react'
+import { notFound } from "next/navigation";
 
-// Importing Components
-import { Actions } from './_components/actions';
-import { isBlockedByUser } from '@/lib/block-service';
+import { getUserByUsername } from "@/lib/user-service";
+import { isFollowingUser } from "@/lib/follow-service";
+import { isBlockedByUser } from "@/lib/block-service";
+import { StreamPlayer } from "@/components/stream-player";
 
 interface UserPageProps {
-    params: {
-        // This means whatever string is passed in the url
-        username: string;
-    }
+  params: {
+    username: string;
+  };
+};
+
+const UserPage = async ({
+  params
+}: UserPageProps) => {
+  const user = await getUserByUsername(params.username);
+
+  if (!user || !user.stream) {
+    notFound();
+  }
+
+  const isFollowing = await isFollowingUser(user.id);
+  const isBlocked = await isBlockedByUser(user.id);
+
+  if (isBlocked) {
+    notFound();
+  }
+
+  return ( 
+    <StreamPlayer
+      user={user}
+      stream={user.stream}
+      isFollowing={isFollowing}
+    />
+  );
 }
-
-async function UserPage({
-    params
-}: UserPageProps) {
-    const user = await getUserByUsername(params.username);
-
-    // If user not found return the 404 page
-    if (!user) {
-        notFound();
-    }
-
-    const isFollowing = await isFollowingUser(user.id);
-    const isBlocked = await isBlockedByUser(user.id)
-
-  return (
-    <div className='flex flex-col gap-y-4'>
-        <p>Username: {user.username}</p>
-        <p>User Id: {user.id}</p>
-        <p>Is Following: {`${isFollowing}`}</p>
-        <p>Is Blocked: {`${isBlocked}`}</p>
-        <Actions
-            userId={user.id}
-            isFollowing={isFollowing}
-            isBlocked={isBlocked}
-        />
-    </div>
-  )
-}
-
-export default UserPage
+ 
+export default UserPage;

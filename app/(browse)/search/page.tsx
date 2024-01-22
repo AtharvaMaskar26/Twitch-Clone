@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { Results, ResultsSkeleton } from "./_components/results";
 
+
 interface SearchPageProps {
   searchParams: {
     term?: string;

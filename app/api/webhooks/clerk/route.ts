@@ -2,8 +2,8 @@ import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
 
-// Importing Database
 import { db } from '@/lib/db'
+import { resetIngresses } from '@/actions/ingress'
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
@@ -48,48 +48,44 @@ export async function POST(req: Request) {
       status: 400
     })
   }
-  
+
   const eventType = evt.type;
 
-//   console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
-//   console.log(`Webhook body: ${body}`);
-  
   if (eventType === "user.created") {
     await db.user.create({
-        // Here we are taking all the username, externalUserId received from the web hook and assigning it to the variables. 
-        data: {
-            externalUserId: payload.data.id,
-            username: payload.data.username,
-            imageUrl: payload.data.image_url,
-            stream: {
-              create: {
-                name: `${payload.data.username}'s stream`
-              },
-            },
+      data: {
+        externalUserId: payload.data.id,
+        username: payload.data.username,
+        imageUrl: payload.data.image_url,
+        stream: {
+          create: {
+            name: `${payload.data.username}'s stream`,
+          },
         },
+      },
     });
   }
 
   if (eventType === "user.updated") {
-    const currentUser = await db.user.findUnique({
-        where: {
-            externalUserId: payload.data.id
-        }
-    });
-
-    if (!currentUser) {
-        return new Response("User Not Found", {status: 404})   
-    }
-
     await db.user.update({
-        where: {
-            externalUserId: payload.user.id, 
-        }, 
-        data: {
-            username: payload.data.username, 
-            imageUrl: payload.data.image_url
-        }
-    })
+      where: {
+        externalUserId: payload.data.id,
+      },
+      data: {
+        username: payload.data.username,
+        imageUrl: payload.data.image_url,
+      },
+    });
+  }
+ 
+  if (eventType === "user.deleted") {
+    await resetIngresses(payload.data.id);
+
+    await db.user.delete({
+      where: {
+        externalUserId: payload.data.id,
+      },
+    });
   }
  
   return new Response('', { status: 200 })

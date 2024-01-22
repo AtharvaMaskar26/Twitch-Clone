@@ -32,7 +32,7 @@ const Logo = (props: Props) => {
             </p>
             <p
                 className="text-sm text-muted-foreground">
-                Let's Play
+                Let&apos;s Play
             </p>
         </div>
     </div>

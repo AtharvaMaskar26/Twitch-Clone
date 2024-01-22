@@ -32,7 +32,7 @@ const Logo = (props: Props) => {
                         Gamehub
                     </p>
                     <p className='text-xs text-muted-foreground'>
-                        Let's Play
+                        Let&apos;s Play
                     </p>
                 </div>
             </div>
